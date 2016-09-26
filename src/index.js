@@ -106,8 +106,10 @@ class Couch {
         const db = await nanoPromise.getDatabase(this._nano, this._databaseName);
         if (!db) {
             if (this._couchOptions.autoCreate) {
+                console.log('auto create database', this._databaseName);
                 debug.trace('db not found -> create');
                 await nanoPromise.createDatabase(this._nano, this._databaseName);
+                console.log('created database');
                 await nanoPromise.request(this._nano, {
                     method: 'PUT',
                     db: this._databaseName,
@@ -123,6 +125,7 @@ class Couch {
                         }
                     }
                 });
+                console.log('created security document');
             } else {
                 debug('db not found - autoCreate is false');
                 console.log('database does not exist', this._databaseName);

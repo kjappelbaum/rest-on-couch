@@ -31,7 +31,6 @@ exports.getDatabase = function (nano, database) {
                     debug.trace('database not found');
                     return resolve(false);
                 }
-                console.log('getDatabase failed');
                 debug.warn('getDatabase failed');
                 return reject(err);
             }
