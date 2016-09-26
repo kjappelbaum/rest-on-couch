@@ -125,7 +125,7 @@ class Couch {
                         }
                     }
                 });
-                console.log('created security document');
+                console.log('created security document', this._databaseName);
             } else {
                 debug('db not found - autoCreate is false');
                 console.log('database does not exist', this._databaseName);
@@ -164,13 +164,13 @@ class Couch {
     async getAuthenticationPromise() {
         if (this._couchOptions.username) {
             debug.trace('authenticate to CouchDB');
-            console.log('authenticate to CouchDB')
+            console.log('authenticate to CouchDB', this._databaseName);
             const cookie = await nanoPromise.authenticate(
                 this._nano,
                 this._couchOptions.username,
                 this._couchOptions.password
             );
-            console.log('cookie', cookie);
+            console.log('cookie', cookie, this._databaseName);
             this._nano = nano({
                 url: this._couchOptions.url,
                 cookie
