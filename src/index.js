@@ -161,11 +161,13 @@ class Couch {
     async getAuthenticationPromise() {
         if (this._couchOptions.username) {
             debug.trace('authenticate to CouchDB');
+            console.log('authenticate to CouchDB')
             const cookie = await nanoPromise.authenticate(
                 this._nano,
                 this._couchOptions.username,
                 this._couchOptions.password
             );
+            console.log('cookie', cookie);
             this._nano = nano({
                 url: this._couchOptions.url,
                 cookie
