@@ -99,8 +99,10 @@ class Couch {
     }
 
     async getInitPromise() {
+        console.log('get init promise', this._databaseName);
         debug(`initialize db ${this._databaseName}`);
         await this._authenticate();
+        console.log('authenticated', this._databaseName);
         const db = await nanoPromise.getDatabase(this._nano, this._databaseName);
         if (!db) {
             if (this._couchOptions.autoCreate) {
@@ -128,12 +130,13 @@ class Couch {
         }
         // Must be done before the other checks because they can add documents to the db
         await checkSecurity(this._db, this._couchOptions.username);
-
+        console.log('security checked', this._databaseName);
         await Promise.all([
             checkDesignDoc(this),
             checkRightsDoc(this._db, this._rights),
             checkDefaultGroupsDoc(this._db)
         ]);
+        console.log('design doc created', this._databaseName);
         this._renewAuthentication();
     }
 

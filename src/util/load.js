@@ -21,6 +21,7 @@ module.exports = function () {
                     fs.stat(path.join(homeDir, files[i], 'config.js'), function (err) {
                         if (!err) {
                             debug.trace(`found database config file: ${files[i]}`);
+                            console.log('load database', files[i]);
                             Couch.get(files[i]);
                         }
                     });
