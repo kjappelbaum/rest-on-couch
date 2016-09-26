@@ -109,7 +109,7 @@ class Couch {
                 console.log('auto create database', this._databaseName);
                 debug.trace('db not found -> create');
                 await nanoPromise.createDatabase(this._nano, this._databaseName);
-                console.log('created database');
+                console.log('created database', this._databaseName);
                 await nanoPromise.request(this._nano, {
                     method: 'PUT',
                     db: this._databaseName,

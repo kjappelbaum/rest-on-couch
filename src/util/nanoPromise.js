@@ -28,6 +28,7 @@ exports.getDatabase = function (nano, database) {
         nano.db.get(database, function (err) {
             if (err) {
                 if (err.reason === 'no_db_file') {
+                    console.log('db file not found');
                     debug.trace('database not found');
                     return resolve(false);
                 }
