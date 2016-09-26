@@ -125,9 +125,11 @@ class Couch {
                 });
             } else {
                 debug('db not found - autoCreate is false');
+                console.log('database does not exist', this._databaseName);
                 throw new CouchError(`database ${this._databaseName} does not exist`, 'not found');
             }
         }
+        console.log('got database', this._databaseName);
         // Must be done before the other checks because they can add documents to the db
         await checkSecurity(this._db, this._couchOptions.username);
         console.log('security checked', this._databaseName);
