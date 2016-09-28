@@ -15,6 +15,7 @@ const log = require('./couch/log');
 const getConfig = require('./config/config').getConfig;
 const globalRightTypes = ['read', 'write', 'create', 'createGroup'];
 const isEmail = require('./util/isEmail');
+const wait = require('./util/wait');
 
 process.on('unhandledRejection', function (err) {
     debug.error('unhandled rejection: ' + err.stack);
@@ -175,6 +176,7 @@ class Couch {
                 url: this._couchOptions.url,
                 cookie
             });
+            await wait(50);
         } else {
             throw new CouchError('rest-on-couch cannot be used without credentials', 'fatal');
         }
