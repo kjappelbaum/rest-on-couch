@@ -1,13 +1,11 @@
 'use strict';
 
 const assert = require('assert');
+
 const compose = require('koa-compose');
 
 const request = require('../../util/requestPromise');
 
-const auth = require('./auth');
-const decorateError = require('./decorateError');
-const respondOk = require('./respondOk');
 const config = require('../../config/config').globalConfig;
 const getConfig = require('../../config/config').getConfig;
 const Couch = require('../../index');
@@ -15,8 +13,11 @@ const debug = require('../../util/debug')('middleware:couch');
 const views = require('../../design/views');
 const CouchError = require('../../util/CouchError');
 
-const couchNeedsParse = ['key', 'startkey', 'endkey'];
+const auth = require('./auth');
+const decorateError = require('./decorateError');
+const respondOk = require('./respondOk');
 
+const couchNeedsParse = ['key', 'startkey', 'endkey'];
 const invalidDbName = 'invalid database name';
 exports.setupCouch = async (ctx, next) => {
   const dbname = ctx.params.dbname;

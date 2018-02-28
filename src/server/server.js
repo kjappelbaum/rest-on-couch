@@ -12,15 +12,19 @@ const passport = require('koa-passport');
 const responseTime = require('koa-response-time');
 const session = require('koa-session');
 
-const api = require('./routes/api');
-const auth = require('./routes/auth');
 const config = require('../config/config').globalConfig;
 const debug = require('../util/debug')('server');
+const graphqlRouter = require('../graphql/router');
+
+const api = require('./routes/api');
+const auth = require('./routes/auth');
 const nunjucks = require('./nunjucks');
 
 const app = new Koa();
 
 let _started;
+
+app.use(graphqlRouter.routes());
 
 app.use(async function (ctx, next) {
   debug.trace(`Method: ${ctx.method}; Path: ${ctx.path}`);

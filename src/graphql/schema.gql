@@ -1,0 +1,4 @@
+type Query {
+  chemical(uuid: ID!, rights: [String] = ["read"]): Chemical
+  chemicals(limit: Int, offset: Int): ChemicalSearchResult
+}
