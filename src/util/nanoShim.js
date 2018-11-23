@@ -4,6 +4,7 @@ const crypto = require('crypto');
 
 const agentkeepalive = require('agentkeepalive');
 const got = require('got');
+const PQueue = require('p-queue');
 
 const { DESIGN_DOC_NAME } = require('../constants');
 const getConfig = require('../config/config').getConfig;
@@ -17,6 +18,8 @@ const agent = new agentkeepalive({
   maxFreeSockets: 50,
   timeout: 1000 * 60 * 5
 });
+
+const queue = new PQueue({ concurrency: 1 });
 
 class NanoShim {
   constructor(url, cookie) {
@@ -194,12 +197,20 @@ class NanoDbShim {
     debug.trace('get attachment', docId, attName);
     const attachmentPath = `${docId}/${attName}`;
     if (asStream) {
-      return this.client.get(attachmentPath, {
-        json: false,
-        query,
-        stream: true,
-        encoding: null,
-        decompress: false
+      return new Promise((resolve) => {
+        queue.add(() => {
+          const stream = this.client.get(attachmentPath, {
+            json: false,
+            query,
+            stream: true,
+            encoding: null,
+            decompress: false
+          });
+          resolve(stream);
+          return new Promise((res) => {
+            stream.on('end', res);
+          });
+        });
       });
     } else {
       const response = await this.client.get(attachmentPath, {
