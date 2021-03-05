@@ -184,6 +184,24 @@ function zenodoAttachments(content) {
 }
 ```
 
+## Rights
+
+| right         | description                       | default right holder      |
+| ------------- | --------------------------------- | ------------------------- |
+| delete        | delete entries                    | superadministrator, owner |
+| read          | read entries                      | superadministrator, owner |
+| write         | write entries                     | superadministrator, owner |
+| create        | create new entries                | superadministrator, admin |
+| readGroup     | see groups                        | superadministrator        |
+| writeGroup    | modify group (e.g., group rights) | superadministrator        |
+| createGroup   | create new groups                 | superadministrator, admin |
+| readImport    | get the importations              | superadministrator        |
+| addAttachment | add attachments to entries        | superadministrator, owner |
+
+Users can create token with limited rights. For example, a token with only `read` rights will not allow performing `write` operations even if the owner of the token is the owner of the entry.
+
+Unauthenticated (`anonymous`) users will have limited rights, e.g., cannot get groups info 
+
 ## Setup environment with Docker (for running tests)
 
 ```bash
